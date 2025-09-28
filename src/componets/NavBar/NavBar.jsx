@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "../NavBar/Link";
+import { Menu, X } from "lucide-react";
 
 const navigationData = [
   {
@@ -29,26 +30,39 @@ const navigationData = [
   },
 ];
 
-
-
-
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const links = navigationData.map((route) => (
+    <Link key={route.pathId} route={route}></Link>
+  ));
+
+
+
+
   return (
-    <nav>
+    <nav className="flex justify-between py-10 mx-10">
+      <span className="flex items-center">
+        <span onClick={() => setOpen(!open)} >
+          {open ? (
+            <X className="md:hidden cursor-pointer"></X>
+          ) : (
+            <Menu className="md:hidden cursor-pointer"></Menu>
+          )}
 
-        <ul className="flex">
-            {
-                navigationData.map(route => <Link key={route.id} route={route}></Link>)
-            }
-        </ul>
+          <ul
+            className={`md:hidden absolute bg-white text-black  ${
+              open ? "top-20" : "-top-50"
+            }`}
+          >
+            {links}
+          </ul>
+        </span>
+        <h3 className="ml-5 text-3xl">My Navbar</h3>
+      </span>
 
+      <ul className="lg:flex hidden">{links}</ul>
 
-
-
-
-
-
-        {/* <ul className="flex">
+      {/* <ul className="flex">
             {
                 navigationData.map((route) => (
                     <li className="mr-10">
@@ -57,9 +71,6 @@ const Navbar = () => {
                 ) )
             }
         </ul> */}
-
-
-
 
       {/* <ul className="flex gap-10">
         <li>
@@ -72,6 +83,8 @@ const Navbar = () => {
           <a href="/">Contact</a>
         </li>
       </ul> */}
+
+      <button>Click Now</button>
     </nav>
   );
 };
